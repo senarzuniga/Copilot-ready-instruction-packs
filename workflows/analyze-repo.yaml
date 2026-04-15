@@ -1,0 +1,31 @@
+name: Analyze Repository
+
+description: |
+  Inspects a repository and returns a structured context object.
+  Used as a prerequisite step by other workflows.
+
+inputs:
+  repo:
+    description: Absolute path or GitHub URL of the target repository
+    required: true
+
+steps:
+  - id: load-profile
+    agent: profile-loader.agent.md
+    description: Load AI-FACTORY-v2 governance profile
+
+  - id: analyze
+    agent: repo-analyzer-agent.md
+    description: Detect language, framework, dependencies, and security flags
+    inputs:
+      repo: ${{ inputs.repo }}
+      profile: ${{ steps.load-profile.output }}
+
+outputs:
+  language: ${{ steps.analyze.output.language }}
+  framework: ${{ steps.analyze.output.framework }}
+  packageManager: ${{ steps.analyze.output.packageManager }}
+  hasTests: ${{ steps.analyze.output.hasTests }}
+  hasCICD: ${{ steps.analyze.output.hasCICD }}
+  dependencies: ${{ steps.analyze.output.dependencies }}
+  securityFlags: ${{ steps.analyze.output.securityFlags }}

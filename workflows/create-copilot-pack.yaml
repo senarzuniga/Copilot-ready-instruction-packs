@@ -1,0 +1,51 @@
+name: Create Copilot Instruction Pack
+
+description: |
+  Full pipeline to generate a Copilot instruction pack for a repository.
+  Runs: profile-loader → repo-analyzer → copilot-instruction-agent → security-agent → supabase-persist
+
+inputs:
+  repo:
+    description: Absolute path or GitHub URL of the target repository
+    required: true
+  task:
+    description: Task identifier passed to the workflow engine
+    default: generate_copilot_instructions
+
+steps:
+  - id: load-profile
+    agent: profile-loader.agent.md
+    description: Load AI-FACTORY-v2 governance profile
+
+  - id: analyze-repo
+    agent: repo-analyzer-agent.md
+    description: Inspect repository structure and detect language/framework
+    inputs:
+      repo: ${{ inputs.repo }}
+
+  - id: generate-instructions
+    agent: copilot-instruction-agent.md
+    description: Generate the Copilot instruction pack
+    inputs:
+      repo: ${{ inputs.repo }}
+      profile: ${{ steps.load-profile.output }}
+      analysis: ${{ steps.analyze-repo.output }}
+
+  - id: security-validate
+    agent: security-agent.md
+    description: Validate and sanitise generated output
+    inputs:
+      output: ${{ steps.generate-instructions.output }}
+      profile: ${{ steps.load-profile.output }}
+      securityFlags: ${{ steps.analyze-repo.output.securityFlags }}
+
+  - id: persist
+    action: supabase-insert
+    description: Store validated pack in Supabase
+    inputs:
+      type: copilot_instructions
+      payload: ${{ steps.security-validate.output.sanitisedOutput }}
+
+outputs:
+  instruction_pack: ${{ steps.security-validate.output.sanitisedOutput }}
+  record_id: ${{ steps.persist.output.id }}
