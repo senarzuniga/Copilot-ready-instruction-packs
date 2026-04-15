@@ -1,0 +1,20 @@
+{
+  "name": "ai-copilot-instruction-factory",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "python launcher/launcher.py",
+    "agents:run": "node core/workflow-engine.js",
+    "supabase:sync": "powershell ./scripts/supabase_sync.ps1",
+    "supabase:deploy": "powershell ./scripts/deploy_functions.ps1",
+    "bootstrap": "powershell ./scripts/bootstrap.ps1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}
