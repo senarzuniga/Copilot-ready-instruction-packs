@@ -120,7 +120,7 @@ const INSECURE_PATTERNS = [
     severity: "HIGH",
   },
   {
-    pattern: /http:\/\/(?!localhost)/,
+    pattern: /http:\/\/(?!localhost|127\.0\.0\.1)/,
     message: "Non-TLS HTTP endpoint detected",
     severity: "MEDIUM",
   },

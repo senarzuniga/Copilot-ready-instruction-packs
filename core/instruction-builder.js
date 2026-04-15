@@ -66,7 +66,7 @@ ${profileRules}
 | Repository | \`${repo}\` |
 | Language | ${language} |
 | Framework | ${framework} |
-| Key dependencies | ${dependencies.join(", ") || "none"} |
+| Key dependencies | ${dependencies.length > 0 ? dependencies.join(", ") : "none"} |
 
 ---
 

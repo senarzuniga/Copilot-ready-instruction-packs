@@ -62,9 +62,10 @@ export async function loadProfile(): Promise<AgentProfile> {
   };
 }
 
-// ---------------------------------------------------------------------------
-// Minimal built-in profile (used when no profile file is present)
-// ---------------------------------------------------------------------------
+// NOTE: The runtime implementation lives in shared/repo-context.js (ESM JavaScript).
+// This TypeScript file provides type declarations and the same logic
+// for TypeScript consumers. Keep MINIMAL_PROFILE and the warning message
+// in sync with repo-context.js.
 
 const MINIMAL_PROFILE = `# AI-FACTORY-v2 Minimal Profile
 
