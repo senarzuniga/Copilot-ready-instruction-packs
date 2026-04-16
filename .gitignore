@@ -1,16 +1,5 @@
-# Dependencies
 node_modules/
-dist/
-__pycache__/
-*.pyc
-
-# Environment — NEVER commit secrets
 .env.local
 .env
-
-# Supabase local config
-.supabase/
-
-# OS artefacts
-.DS_Store
-Thumbs.db
+dist/
+*.log

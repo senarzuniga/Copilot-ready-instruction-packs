@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./"
   },
-  "include": ["core/**/*", "shared/**/*", "supabase/**/*", "launcher/**/*"],
+  "include": ["agents/**/*", "core/**/*", "shared/**/*", "supabase/**/*"],
   "exclude": ["node_modules", "dist"]
 }
