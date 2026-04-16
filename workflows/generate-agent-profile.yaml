@@ -1,0 +1,53 @@
+name: Generate Agent Profile
+
+description: |
+  Generates a custom AI agent profile document based on an existing
+  Copilot instruction pack and repository analysis.
+
+inputs:
+  repo:
+    description: Absolute path or GitHub URL of the target repository
+    required: true
+  base_profile:
+    description: Path to the base AI-FACTORY-v2 profile
+    default: ../AI-FACTORY-v2/profile.md
+
+steps:
+  - id: load-profile
+    agent: profile-loader.agent.md
+    description: Load AI-FACTORY-v2 governance profile
+    inputs:
+      profilePath: ${{ inputs.base_profile }}
+
+  - id: analyze-repo
+    agent: repo-analyzer-agent.md
+    description: Inspect repository to gather context for the new profile
+    inputs:
+      repo: ${{ inputs.repo }}
+
+  - id: generate-profile
+    agent: orchestrator.agent.md
+    description: Orchestrate profile generation using analysis + base profile
+    inputs:
+      task: generate_agent_profile
+      repo: ${{ inputs.repo }}
+      profile: ${{ steps.load-profile.output }}
+      analysis: ${{ steps.analyze-repo.output }}
+
+  - id: security-validate
+    agent: security-agent.md
+    description: Validate generated profile for security violations
+    inputs:
+      output: ${{ steps.generate-profile.output }}
+      profile: ${{ steps.load-profile.output }}
+
+  - id: persist
+    action: supabase-insert
+    description: Store the generated profile in Supabase
+    inputs:
+      type: agent_profile
+      payload: ${{ steps.security-validate.output.sanitisedOutput }}
+
+outputs:
+  agent_profile: ${{ steps.security-validate.output.sanitisedOutput }}
+  record_id: ${{ steps.persist.output.id }}
