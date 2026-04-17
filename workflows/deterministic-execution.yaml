@@ -1,0 +1,51 @@
+name: Deterministic Execution
+
+description: |
+  Runs a user task through the Deterministic AI Execution Agent pipeline
+  (UNDERSTAND → STRUCTURE → GENERATE → VALIDATE → REFINE → OUTPUT),
+  applies the security gate, and persists the sanitised result to Supabase.
+
+inputs:
+  task:
+    description: Task description — what must be built or answered
+    required: true
+  context:
+    description: Optional additional repository or business context
+    default: ""
+  base_profile:
+    description: Path to the base AI-FACTORY-v2 profile
+    default: ../AI-FACTORY-v2/profile.md
+
+steps:
+  - id: load-profile
+    agent: profile-loader.agent.md
+    description: Load AI-FACTORY-v2 governance profile
+    inputs:
+      profilePath: ${{ inputs.base_profile }}
+
+  - id: execute-pipeline
+    agent: deterministic-execution-agent.md
+    description: Run the 6-step deterministic execution pipeline
+    inputs:
+      task: ${{ inputs.task }}
+      context: ${{ inputs.context }}
+      profile: ${{ steps.load-profile.output }}
+
+  - id: security-validate
+    agent: security-agent.md
+    description: Validate pipeline output for security violations
+    inputs:
+      output: ${{ steps.execute-pipeline.output.output }}
+      profile: ${{ steps.load-profile.output }}
+
+  - id: persist
+    action: supabase-insert
+    description: Store the sanitised result in Supabase
+    inputs:
+      type: deterministic-execution
+      payload: ${{ steps.security-validate.output.sanitisedOutput }}
+
+outputs:
+  result: ${{ steps.security-validate.output.sanitisedOutput }}
+  record_id: ${{ steps.persist.output.id }}
+  security_passed: ${{ steps.security-validate.output.passed }}

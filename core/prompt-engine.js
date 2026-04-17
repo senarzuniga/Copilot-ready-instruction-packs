@@ -72,6 +72,63 @@ Be precise. Do not invent information — if unknown, use "unknown".`;
 }
 
 /**
+ * Build a deterministic execution agent prompt for a given task.
+ *
+ * @param {object} params
+ * @param {string} params.task          - The raw task description
+ * @param {string} params.taskType      - Detected task type (CODE | DATA | BUSINESS | GENERIC)
+ * @param {string[]} params.constraints - Extracted constraints
+ * @param {string} params.outputType    - Inferred output format
+ * @param {string[]} params.assumptions - Explicit assumptions made
+ * @returns {string} Rendered prompt string
+ */
+export function buildDeterministicPrompt({
+  task,
+  taskType,
+  constraints,
+  outputType,
+  assumptions,
+}) {
+  const constraintBlock =
+    constraints.length > 0
+      ? constraints.map((c) => `- ${c}`).join('\n')
+      : '- None identified';
+
+  const assumptionBlock =
+    assumptions.length > 0
+      ? assumptions.map((a) => `- ${a}`).join('\n')
+      : '- None';
+
+  return `You are a Deterministic AI Execution Agent.
+
+Execute the following task through the mandatory pipeline:
+UNDERSTAND → STRUCTURE → GENERATE → VALIDATE → REFINE → OUTPUT
+
+## Task
+${task}
+
+## Detected Task Type
+${taskType}
+
+## Constraints
+${constraintBlock}
+
+## Explicit Assumptions
+${assumptionBlock}
+
+## Required Output Format
+${outputType}
+
+## Rules
+1. Output MUST follow the standard envelope: RESULT / STRUCTURE USED / ASSUMPTIONS / VALIDATION CHECK
+2. All sections must be complete and actionable — no placeholder text
+3. Validate before returning: completeness ✅, structure ✅, actionability ✅
+4. If any validation gate fails, refine internally (max 3 iterations) before outputting
+5. Return the final output only — no meta-commentary
+`;
+}
+
+/**
  * Build a security validation prompt.
  *
  * @param {string} content - The artefact to validate

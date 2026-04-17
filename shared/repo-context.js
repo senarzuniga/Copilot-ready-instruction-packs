@@ -1,5 +1,8 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 function getRepoRoot() {
   return path.resolve(__dirname, '..');
@@ -18,4 +21,4 @@ function getRepoContext() {
   };
 }
 
-module.exports = { getRepoRoot, getRepoContext };
+export { getRepoRoot, getRepoContext };

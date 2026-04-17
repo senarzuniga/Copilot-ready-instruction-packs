@@ -1,4 +1,4 @@
-const { supabase } = require('../supabase/client');
+import { supabase } from '../supabase/client.js';
 
 class WorkflowEngine {
   constructor() {
@@ -31,4 +31,4 @@ class WorkflowEngine {
   }
 }
 
-module.exports = { WorkflowEngine };
+export { WorkflowEngine };

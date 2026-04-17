@@ -1,4 +1,4 @@
-const { WorkflowEngine } = require('../core/workflow-engine');
+import { WorkflowEngine } from '../core/workflow-engine.js';
 
 class CopilotInstructionAgent {
   constructor() {
@@ -22,4 +22,4 @@ class CopilotInstructionAgent {
   }
 }
 
-module.exports = { CopilotInstructionAgent };
+export { CopilotInstructionAgent };
