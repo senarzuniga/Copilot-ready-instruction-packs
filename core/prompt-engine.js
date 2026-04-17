@@ -29,7 +29,7 @@ export function buildInstructionPrompt({
 ${rules}
 ---
 
-Generate a complete GitHub Copilot instruction set for the repository described below.
+Generate a complete, ready-to-use GitHub Copilot instruction file for the repository described below.
 
 Repository: ${repo}
 Primary language: ${language}
@@ -42,6 +42,10 @@ Requirements:
 3. All rules must be concrete and actionable — no placeholders
 4. Enforce the agent profile rules in every section
 5. Production-ready output only
+6. Output the final instruction content directly (not a prompt, plan, ticket, or implementation brief)
+7. Do NOT use labels or headings like "TASK:", "OBJECTIVE:", "SCOPE:", "ARCHITECTURE:", or "EXPECTED RESULT:"
+8. Do NOT describe what should be built; instead, provide operating instructions the agent can follow immediately
+9. Return only the final Markdown instruction file content, with no preface or explanation
 `;
 }
 
