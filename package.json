@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node agents/copilot-instruction-agent.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/senarzuniga/Copilot-ready-instruction-packs/issues"
   },
