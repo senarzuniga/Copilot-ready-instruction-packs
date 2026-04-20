@@ -2,6 +2,17 @@
 
 Governed by a strict agent profile (from your AI-FACTORY-v2) and backed by a shared Supabase infrastructure.
 
+## Table of Contents
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Environment Variables](#environment-variables)
+- [Setup](#setup)
+- [Running](#running)
+- [Database Schema](#database-schema)
+- [Scripts](#scripts)
+- [Troubleshooting](#troubleshooting)
+- [Examples](#examples)
+
 ## Project Structure
 
 ```
@@ -79,3 +90,20 @@ The system uses a `ai_generated_instructions` table with the following columns:
 
 - `scripts/deploy_functions.ps1` — Deploy Supabase Edge Functions
 - `scripts/supabase_sync.ps1` — Sync database schema to Supabase
+
+## Troubleshooting
+
+- Ensure all environment variables are correctly set in `.env.local`.
+- Check Supabase project settings if database sync fails.
+
+## Examples
+
+- Example command to start the project:
+  ```bash
+  npm run start
+  ```
+- Example database schema application:
+  ```sql
+  -- Example SQL command
+  SELECT * FROM ai_generated_instructions;
+  ```
