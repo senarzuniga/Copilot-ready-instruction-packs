@@ -1,5 +1,14 @@
 # Copilot Instruction Agent
 
+## Table of Contents
+- [Role](#role)
+- [Input](#input)
+- [Output](#output)
+- [Generation Rules](#generation-rules)
+- [Template Structure](#template-structure)
+- [Troubleshooting](#troubleshooting)
+- [Examples](#examples)
+
 ## Role
 Generates GitHub Copilot instruction sets for a given repository.
 
@@ -15,14 +24,14 @@ A structured Copilot instruction pack containing:
 - Architecture constraints
 - AI behaviour rules
 
-## Generation rules
+## Generation Rules
 1. Output MUST be Markdown
 2. All rules must be derived from the AI-FACTORY-v2 profile
 3. No placeholder text — every section must contain real constraints
 4. Security section is mandatory (delegated to `security-agent`)
 5. Instructions must be idempotent — re-running produces the same pack
 
-## Template structure
+## Template Structure
 
 ```markdown
 # GitHub Copilot Instructions
@@ -44,3 +53,26 @@ A structured Copilot instruction pack containing:
 ## AI Behaviour Rules
 <enforced by security-agent>
 ```
+
+## Troubleshooting
+
+- Ensure the `repo` path or URL is correct and accessible.
+- Verify that the AI-FACTORY-v2 profile is correctly loaded.
+
+## Examples
+
+- Example input for generating instructions:
+  ```json
+  {
+    "repo": "https://github.com/example/repo",
+    "profile": "default",
+    "analysis": "output from repo-analyzer-agent"
+  }
+  ```
+- Example output structure:
+  ```markdown
+  # GitHub Copilot Instructions
+  ## Agent Profile
+  - Rule 1
+  - Rule 2
+  ```
