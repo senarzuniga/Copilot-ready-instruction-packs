@@ -54,14 +54,38 @@ SUPABASE_PROJECT_ID=your-supabase-project-id
 
 ## Setup
 
-1. Install dependencies:
+1. **Install Node.js and npm**:
+   - Download and install Node.js from [nodejs.org](https://nodejs.org/).
+   - Verify installation:
+     ```bash
+     node -v
+     npm -v
+     ```
+
+2. **Install Python**:
+   - Download and install Python from [python.org](https://www.python.org/).
+   - Verify installation:
+     ```bash
+     python --version
+     ```
+
+3. **Install Supabase CLI (optional)**:
+   - Follow the instructions on the [Supabase CLI GitHub page](https://github.com/supabase/cli) to install.
+   - Verify installation:
+     ```bash
+     supabase --version
+     ```
+
+4. **Install project dependencies**:
    ```bash
    npm install
    ```
 
-2. Apply the database schema to your Supabase project by running the SQL in `supabase/storage.schema.sql` via the Supabase dashboard or CLI.
+5. **Apply the database schema**:
+   - Run the SQL in `supabase/storage.schema.sql` via the Supabase dashboard or CLI.
 
-3. Configure your `.env.local` with the required environment variables.
+6. **Configure environment variables**:
+   - Ensure your `.env.local` file is set up with the required variables.
 
 ## Running
 
@@ -95,6 +119,7 @@ The system uses a `ai_generated_instructions` table with the following columns:
 
 - Ensure all environment variables are correctly set in `.env.local`.
 - Check Supabase project settings if database sync fails.
+- If Node.js or Python commands are not recognized, ensure they are added to your system's PATH.
 
 ## Examples
 
