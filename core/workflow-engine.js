@@ -1,4 +1,5 @@
 import { supabase } from '../supabase/client.js';
+import logger from '../shared/logger.js';
 
 class WorkflowEngine {
   constructor() {
@@ -11,7 +12,11 @@ class WorkflowEngine {
       .insert([{ type, payload }])
       .select();
 
-    if (error) throw error;
+    if (error) {
+      logger.error('Error storing instruction', { error });
+      throw error;
+    }
+    logger.info('Instruction stored', { type, payload });
     return data;
   }
 
@@ -26,7 +31,11 @@ class WorkflowEngine {
     }
 
     const { data, error } = await query;
-    if (error) throw error;
+    if (error) {
+      logger.error('Error fetching instructions', { error });
+      throw error;
+    }
+    logger.info('Instructions fetched', { type });
     return data;
   }
 }
