@@ -6,6 +6,9 @@
 - [Output](#output)
 - [Generation Rules](#generation-rules)
 - [Template Structure](#template-structure)
+- [Setup](#setup)
+- [Configuration](#configuration)
+- [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
 - [Examples](#examples)
 
@@ -53,6 +56,25 @@ A structured Copilot instruction pack containing:
 ## AI Behaviour Rules
 <enforced by security-agent>
 ```
+
+## Setup
+
+1. Ensure you have access to the target repository.
+2. Install necessary dependencies using `npm install` or `yarn`.
+3. Verify that the `repo-analyzer-agent` is configured and operational.
+
+## Configuration
+
+- Set up your AI-FACTORY-v2 profile by editing the `config.json` file.
+- Ensure the `security-agent` is properly integrated for security checks.
+
+## Usage
+
+1. Run the agent with the following command:
+   ```bash
+   node copilot-instruction-agent.js --repo <repository-url> --profile <profile-name>
+   ```
+2. Check the output in the `.github/copilot-instructions.md` file.
 
 ## Troubleshooting
 
