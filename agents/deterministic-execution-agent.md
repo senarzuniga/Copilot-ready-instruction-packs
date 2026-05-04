@@ -83,3 +83,26 @@ All four gates must pass before output is returned:
 - NEVER use `eval()` or `new Function()`
 - Output must be **production-ready** — no placeholder text or TODO comments
 - Pass output through `security-agent` before persisting to Supabase
+
+## Setup
+
+1. Ensure all dependencies are installed via `npm install` or `yarn`.
+2. Confirm that the `security-agent` is configured for validation.
+
+## Configuration
+
+- Adjust the `config.json` to set the default task type and context.
+- Ensure the pipeline steps are correctly defined in the configuration.
+
+## Usage
+
+1. Execute the agent with:
+   ```bash
+   node deterministic-execution-agent.js --task "<task description>" --context "<context>"
+   ```
+2. Review the output for completeness and correctness.
+
+## Troubleshooting
+
+- If the output is incomplete, check the task description for clarity.
+- Ensure all pipeline steps are correctly configured and executed.
