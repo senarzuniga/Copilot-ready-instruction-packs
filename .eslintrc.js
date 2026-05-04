@@ -10,5 +10,7 @@ module.exports = {
   },
   rules: {
     // Add custom rules or overrides here
+    'security/detect-object-injection': 'warn',
+    'security/detect-non-literal-fs-filename': 'warn'
   }
 };
