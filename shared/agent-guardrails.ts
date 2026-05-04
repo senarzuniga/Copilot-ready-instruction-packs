@@ -10,6 +10,7 @@
  */
 
 import type { AgentProfile } from "./repo-context.js";
+import logger from './logger.js';
 
 export interface AgentResult {
   agentName: string;
@@ -39,25 +40,24 @@ export function withGuardrails<TInput, TOutput>(
   return async (input: TInput, profile: AgentProfile): Promise<AgentResult> => {
     // 1. Profile must be loaded
     if (!profile || !profile.rules) {
-      throw new Error(
-        `[${agentName}] AI-FACTORY-v2 profile is missing. ` +
-          "Load it with loadProfile() before invoking any agent."
-      );
+      const errorMessage = `[${agentName}] AI-FACTORY-v2 profile is missing. ` +
+        "Load it with loadProfile() before invoking any agent.";
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
-    console.log(`🤖 [${agentName}] Starting...`);
+    logger.info(`🤖 [${agentName}] Starting...`);
     const start = Date.now();
 
     // 2. Timeout wrapper
     let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
     const timeoutPromise = new Promise<never>((_, reject) => {
       timeoutHandle = setTimeout(
-        () =>
-          reject(
-            new Error(
-              `[${agentName}] Timed out after ${timeoutMs}ms`
-            )
-          ),
+        () => {
+          const errorMessage = `[${agentName}] Timed out after ${timeoutMs}ms`;
+          logger.error(errorMessage);
+          reject(new Error(errorMessage));
+        },
         timeoutMs
       );
     });
@@ -73,10 +73,12 @@ export function withGuardrails<TInput, TOutput>(
 
     // 3. Non-empty result
     if (output === undefined || output === null) {
-      throw new Error(`[${agentName}] returned an empty result.`);
+      const errorMessage = `[${agentName}] returned an empty result.`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
-    console.log(`✅ [${agentName}] Completed in ${durationMs}ms`);
+    logger.info(`✅ [${agentName}] Completed in ${durationMs}ms`);
 
     return { agentName, output, durationMs };
   };
